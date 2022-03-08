@@ -1,6 +1,18 @@
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+import os,sys
 
 app = Flask(__name__)
+
+WIN = sys.platform.startswith('win')
+if WIN:
+    prefix = 'sqlite:///'
+else:
+    prefix = 'sqlite:////'
+app.config['SQLALCHEMY_DATABASE-URI'] = prefix + os.path.join(app.root_path,'data.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 name = 'Grey Li'
 movies = [
